@@ -5,17 +5,25 @@ import Persons from "./components/person/persons";
 class App extends Component {
   state = {
     persons: [
-      { firstname: "محمد", lastname: "شریعت" },
-      { firstname: "مهراد", lastname: "شریعت" },
-      { firstname: "امیر", lastname: "شریعت" },
-      { firstname: "علی", lastname: "شریعت" },
-      { firstname: "مصطفی", lastname: "شریعت" },
+      { id: 1, firstname: "محمد", lastname: "شریعت" },
+      { id: 2, firstname: "مهراد", lastname: "شریعت" },
+      { id: 3, firstname: "امیر", lastname: "شریعت" },
+      { id: 4, firstname: "علی", lastname: "شریعت" },
+      { id: 5, firstname: "مصطفی", lastname: "شریعت" },
     ],
     showPersons: false,
   };
 
   showPersonHandler = () => {
     this.setState({ showPersons: !this.state.showPersons });
+  };
+
+  //*this function delete each person that is clicked
+  deletePersonHandler = (id) => {
+    //filter
+    const persons = [...this.state.persons];
+    const filteredPersons = persons.filter((p) => p.id !== id);
+    this.setState({ persons: filteredPersons });
   };
 
   render() {
@@ -34,13 +42,13 @@ class App extends Component {
     };
 
     let person = null;
-    let buttonText = "";
+    let buttonText = "نمایش";
 
     if (showPersons) {
-      person = <Persons persons={persons} />;
+      person = (
+        <Persons  persons={persons} deletePerson={this.deletePersonHandler} />
+      );
       buttonText = "عدم نمایش";
-    } else {
-      buttonText = "نمایش";
     }
 
     return (
