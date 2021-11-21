@@ -1,16 +1,11 @@
 import React, { Component } from "react";
 
-import Persons from "./components/person/persons";
+import Persons from "./components/person/Persons";
 
 class App extends Component {
   state = {
-    persons: [
-      { id: 1, fullname: "محمد شریعت" },
-      { id: 2, fullname: "امیر شریعت" },
-      { id: 3, fullname: "علی شریعت" },
-      { id: 4, fullname: "مصطفی شریعت" },
-      { id: 5, fullname: "مهراد شریعت" },
-    ],
+    persons: [],
+    person: "",
     showPersons: false,
   };
 
@@ -37,7 +32,23 @@ class App extends Component {
     const persons = [...allPersons];
 
     persons[personIndex] = person;
-    this.setState({ person });
+    this.setState({ persons: persons });
+  };
+
+  //* this function add person to persons
+  newPersonHandler = () => {
+    const persons = [...this.state.persons];
+    const person = {
+      id: Math.floor(Math.random() * 1000),
+      fullname: this.state.person,
+    };
+    persons.push(person);
+    this.setState({ persons, person: "" });
+  };
+
+  //* this function is for input value
+  newPerson = (event) => {
+    this.setState({ person: event.target.value });
   };
 
   render() {
@@ -73,10 +84,20 @@ class App extends Component {
       <div style={styles}>
         <h1>مدیریت کننده اشخاص</h1>
         <h4>تعداد اشخاص {persons.length} نفر می باشد</h4>
-        {person}
+        <div style={{ direction: "rtl" }}>
+          <input
+            type="text"
+            placeholder="ساخت شخص جدید"
+            style={{ direction: "rtl" }}
+            value={this.state.person}
+            onChange={this.newPerson}
+          />
+          <button onClick={this.newPersonHandler}>اضافه کن</button>
+        </div>
         <button onClick={this.showPersonHandler} style={buttonStyle}>
           {buttonText}
         </button>
+        {person}
       </div>
     );
   }
